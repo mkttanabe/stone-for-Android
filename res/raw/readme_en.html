@@ -1,0 +1,409 @@
+<html>
+<head><title>README</title>
+</head>
+<body bgcolor="#efefef"><pre>
+			    Simple Repeater
+
+			   stone version 2.3e
+
+		Copyright(c)1995-2008 by Hiroaki Sengoku
+			    sengoku@gcd.org
+
+
+  Stone is a TCP/IP repeater in the application layer.  It repeats TCP
+and UDP from inside to outside of a firewall, or from outside to inside.
+
+  Stone has following features:
+
+1.  Stone supports Win32.
+	Formerly, UNIX machines are used as firewalls, but recently
+	WindowsNT machines are used, too.  You can easily run stone on
+	WindowsNT and Windows95.  Of course, available on Linux,
+	FreeBSD, BSD/OS, SunOS, Solaris, HP-UX and so on.
+
+2.  Simple.
+	Stone's source code is only 10000 lines long (written in C
+	language), so you can minimize the risk of security
+	holes.
+
+3.  Stone supports SSL.
+	Using OpenSSL (http://www.openssl.org/), stone can
+	encrypt/decrypt.  Client verifications, and server verifications
+	are also supported.  Stone can send a substring of the subject
+	of the certificate to the destination.
+
+4.  Stone is a http proxy.
+	Stone can also be a tiny http proxy.
+
+5.  POP -&gt; APOP conversion.
+	With stone and a mailer that does not support APOP, you can
+	access to an APOP server.
+
+6.  Stone supports IPv6.
+	Stone can convert IP and IPv6 each other.  With stone, you can
+	use IP-only software on IPv6 network.
+
+
+HOWTO USE
+
+	stone [-C &lt;file&gt;] [-P &lt;command&gt;] [-Q &lt;options&gt;] [-N] [-d] [-p] [-n]
+	      [-u &lt;max&gt;] [-f &lt;n&gt;] [-l] [-L &lt;file&gt;] [-a &lt;file&gt;] [-i &lt;file&gt;]
+	      [-X &lt;n&gt;] [-T &lt;n&gt;] [-A &lt;n&gt;] [-r]
+	      [-x &lt;port&gt;[,&lt;port&gt;][-&lt;port&gt;]... &lt;xhost&gt;... --]
+	      [-s &lt;send&gt; &lt;expect&gt;... --]
+	      [-b [&lt;var&gt;=&lt;val&gt;]... &lt;n&gt; &lt;master&gt;:&lt;port&gt; &lt;backup&gt;:&lt;port&gt;]
+	      [-B &lt;host&gt;:&lt;port&gt; &lt;host1&gt;:&lt;port1&gt;... --]
+	      [-I &lt;host&gt;]
+	      [-o &lt;n&gt;] [-g &lt;n&gt;] [-t &lt;dir&gt;] [-D] [-c &lt;dir&gt;]
+	      [-q &lt;SSL&gt;] [-z &lt;SSL&gt;]
+	      [-M install &lt;name&gt;] [-M remove &lt;name&gt;]
+	      &lt;st&gt; [-- &lt;st&gt;]...
+
+	If the ``-C &lt;file&gt;'' flag is used, the program read these
+	options and ``&lt;st&gt;''s from the configuration file ``&lt;file&gt;''.
+	If the ``-P &lt;command&gt;'' flag is used, the program executes
+	pre-processor to read the configuration file.  ``-Q &lt;options&gt;''
+	can be used to pass options to the pre-processor.  If the ``-N''
+	flag is used, stone will terminate after parsing options without
+	opening the ports.
+
+	If the ``-d'' flag is used, then increase the debug level.  If
+	the ``-p'' flag is used, data repeated by stone are dumped.  If
+	the ``-n'' is used, IP addresses and service port numbers are
+	shown instead of host names and service names.
+
+	If the ``-u &lt;max&gt;'' flag (``&lt;max&gt;'' is integer) is used, the
+	program memorize ``&lt;max&gt;'' UDP sources simultaneously.  The
+	default value is 100.  If the ``-f &lt;n&gt;'' flag (``&lt;n&gt;'' is
+	integer) is used, the program spawn ``&lt;n&gt;'' child processes.
+	The default behavior is not to spawn any child processes.
+
+	If the ``-l'' flag is used, the program sends error messages to
+	the syslog instead of stderr.  If the ``-L &lt;file&gt;'' (``&lt;file&gt;''
+	is a file name) flag is used, the program writes error messages
+	to the file.  If the ``-a &lt;file&gt;'' flag is used, the program
+	writes accounting to the file.  If the ``-i &lt;file&gt;'' flag is
+	used, the program writes its process ID to the file.
+
+	The ``-X &lt;n&gt;'' flag alters the buffer size of the repeater.  The
+	default value is 1000 bytes.  If the ``-T &lt;n&gt;'' is used, the
+	timeout of TCP sessions can be specified to ``&lt;n&gt;'' sec.
+	Default: 600.  The ``-A'' flag specifies the maximum length the
+	queue of pending connections may grow to.  Default: 50.  The
+	``-r'' flag is used, SO_REUSEADDR is set on the socket of &lt;st&gt; .
+
+	Using the ``-x &lt;port&gt;[,&lt;port&gt;][-&lt;port&gt;]... &lt;xhost&gt;... --'' flag,
+	the http proxy (described later) can only connect to
+	&lt;xhost&gt;:&lt;port&gt;.  If more than one ``-x ... --'' flags are
+	designated, the posterior one whose &lt;port&gt; list matches the
+	connecting port.  If the ``-x --'' is used, prior ``-x'' flags
+	are ignored.
+
+	The ``-b &lt;n&gt; &lt;master&gt;:&lt;port&gt; &lt;backup&gt;:&lt;port&gt;'' flag designates
+	the backup destination for &lt;master&gt;:&lt;port&gt;.  The program checks
+	every &lt;n&gt; seconds whether &lt;master&gt;:&lt;port&gt; is connectable, using
+	the health check script defined by ``-s'' flag described below.
+	If not, the backup is used instead.  Alternative &lt;host&gt; can be
+	checked, using ``host=&lt;host&gt;'' and alternative &lt;port&gt;, using
+	``port=&lt;port&gt;''.
+
+	The ``-s &lt;send&gt; &lt;expect&gt;... --'' flag defines the health check
+	script.  Sending &lt;send&gt;, then checks whether the response match
+	the regular expression &lt;expect&gt;.
+
+	The ``-B &lt;host&gt;:&lt;port&gt; &lt;host1&gt;:&lt;port1&gt;... --'' is for the
+	destination group.  If the destination of &lt;st&gt; is &lt;host&gt;:&lt;port&gt;,
+	the program chooses a destination randomly from the group.  The
+	destination &lt;host&gt;:&lt;port&gt; that is designated by ``-b'' flag and
+	turned out unhealthy, is excluded from the group.
+
+	The ``-I &lt;host&gt;'' designates the interface used as the source
+	address of the connection to the desctination.
+
+	If the ``-o &lt;n&gt;'' or ``-g &lt;n&gt;'' flag is used, the program set
+	its uid or gid to ``&lt;n&gt;'' respectively.  If the ``-t &lt;dir&gt;''
+	flag (``&lt;dir&gt;'' is a directory) is used, the program change its
+	root to the directory.  If the ``-D'' flag is used, stone runs
+	as a daemon.  The ``-c &lt;dir&gt;'' flag designates the directory for
+	core dump.
+
+	The ``-M install &lt;name&gt;'' and the ``-M remove &lt;name&gt;'' flags are
+	for NT service.  ``&lt;name&gt;'' is the service name.  Start the
+	service using the command: net start &lt;name&gt;.  To install stone
+	service as the name ``repeater'', for example:
+
+		C:\&gt;stone -M install repeater -C C:\stone.cfg
+		C:\&gt;net start repeater
+
+	The ``-q &lt;SSL&gt;'' and the ``-z &lt;SSL&gt;'' flags are for SSL
+	encryption.  The ``-q &lt;SSL&gt;'' is for the client mode, that is,
+	when stone connects to the other SSL server as a SSL client.
+	The ``-z &lt;SSL&gt;'' if for the server mode, that is, when other SSL
+	clients connect to the stone.
+
+	``&lt;SSL&gt;'' is one of the following.
+
+	default		reset SSL options to the default.
+			Using multiple &lt;st&gt;, different SSL options can
+			be designated for each &lt;st&gt;.
+	verbose		verbose mode.
+	verify		require SSL certificate to the peer.
+	verify,once	request a client certificate on the initial TLS/SSL
+			handshake. (-z only)
+	verify,ifany	The certificate returned (if any) is checked. (-z only)
+	verify,none	never request SSL certificate to the peer.
+	crl_check	lookup CRLs.
+	crl_check_all	lookup CRLs for whole chain.
+	uniq		if the serial number of peer's SSL certificate
+			is different from the previous session, deny it.
+	re&lt;n&gt;=&lt;regex&gt;	The certificate of the peer must satisfy the
+			&lt;regex&gt;.  &lt;n&gt; is the depth.  re0 means the subject
+			of the certificate, and re1 means the issure.
+			The maximum of &lt;n&gt; is 9.
+			if &lt;n&gt; is negative, re-1 means the root CA and
+			re-2 means its child CA.
+	depth=&lt;n&gt;	The maximum of the certificate chain.
+			If the peer's certificate exceeds &lt;n&gt;, the
+			verification fails.  The maximum of &lt;n&gt; is 9.
+	tls1		Just use TLSv1 protocol.
+	ssl3		Just use SSLv3 protocol.
+	ssl2		Just use SSLv2 protocol.
+	no_tls1		Turn off TLSv1 protocol.
+	no_ssl3		Turn off SSLv3 protocol.
+	no_ssl2		Turn off SSLv2 protocol.
+	sni		Server Name Indication (SNI).
+	servername=&lt;str&gt;	The name of the server indicated by SNI.
+	bugs		Switch on all SSL implementation bug workarounds.
+	serverpref	Use server's cipher preferences (only SSLv2).
+	sid_ctx=&lt;str&gt;	Set session ID context.
+	passfile=&lt;file&gt;	The filename of the file containing password of the key
+	passfilepat=&lt;file&gt;	The pattern of the filename
+	key=&lt;file&gt;	The filename of the secret key of the certificate.
+	keypat=&lt;file&gt;		The pattern of the filename
+	cert=&lt;file&gt;	The filename of the certificate.
+	certpat=&lt;file&gt;		The pattern of the filename
+	certkey=&lt;file&gt;	The filename of the certificate with the secret key.
+	certkeypat=&lt;file&gt;	The pattern of the filename
+	CAfile=&lt;file&gt;	The filename of the certificate of the CA.
+	CApath=&lt;dir&gt;	The directory of the certificate files.
+	pfx=&lt;file&gt;	The filename of the PKCS#12 bag.
+	pfxpat=&lt;file&gt;		The pattern of the filename
+	store=&lt;prop&gt;	[Windows] Use the secret key in the Cert Store.
+			designate by "SUBJ:&lt;substr&gt;" or "THUMB:&lt;hex&gt;"
+	storeCA		[Windows] Use CA certificates in the Cert Store.
+	cipher=&lt;list&gt;	The list of ciphers.
+	lb&lt;n&gt;=&lt;m&gt;	change the destination according to the
+			certificate of the peer.  The number calculated
+			from the matched string to the &lt;n&gt;th ( ... ) in
+			the ``regex'' of SSL options (mod &lt;m&gt;) is used
+			to select the destination from the destination
+			group defined by ``-B'' flag.
+
+	``&lt;st&gt;'' is one of the following.  Multiple ``&lt;st&gt;'' can be
+	designated, separated by ``--''.
+
+	(1)	&lt;host&gt;:&lt;port&gt; &lt;sport&gt; [&lt;xhost&gt;...]
+	(2)	&lt;host&gt;:&lt;port&gt; &lt;shost&gt;:&lt;sport&gt; [&lt;xhost&gt;...]
+	(3)	proxy &lt;sport&gt; [&lt;xhost&gt;...]
+	(4)	&lt;host&gt;:&lt;port&gt;/http &lt;sport&gt; &lt;request&gt; [&lt;xhost&gt;...]
+	(5)	&lt;host&gt;:&lt;port&gt;/proxy &lt;sport&gt; &lt;header&gt; [&lt;xhost&gt;...]
+	(6)	health &lt;sport&gt; [&lt;xhost&gt;...]
+
+	The program repeats the connection on port ``&lt;sport&gt;'' to the
+	other machine ``&lt;host&gt;'' port ``&lt;port&gt;''.  If the machine, on
+	which the program runs, has two or more interfaces, type (2) can
+	be used to repeat the connection on the specified interface
+	``&lt;shost&gt;''.  You can also specify path name that begins with
+	``/'' or ``./'', instead of ``&lt;host&gt;:&lt;port&gt;'' so that the
+	program handles a unix domain socket.
+
+	Type (3) is a http proxy.  Specify the machine, on which the
+	program runs, and port ``&lt;sport&gt;'' in the http proxy settings of
+	your WWW browser.
+	Extentions can be added to the ``proxy'' like ``&lt;xhost&gt;/&lt;ext&gt;''.
+	&lt;ext&gt; is:
+
+	v4only	limit the destination within IP addresses.
+
+	v6only	limit the destination within IPv6 addresses.
+
+	Type (4) relays stream over http request.  ``&lt;request&gt;'' is the
+	request specified in HTTP 1.0.  In the ``&lt;request&gt;'', ``\'' is
+	the escape character, and the following substitution occurs.
+
+		\n	newline  (0x0A)
+		\r	return   (0x0D)
+		\t	tab      (0x09)
+		\\	\ itself (0x5C)
+		\a	the IP address of the client connecting to the stone.
+		\A	&lt;IP address of the client&gt;:&lt;port number&gt;
+		\d	the destination IP address
+		\D	&lt;dst IP address&gt;:&lt;port number&gt; (for transparent proxy)
+		\u	uid (number) of the client
+		\U	user name of the client
+		\g	gid (number) of the client
+		\G	group name of the client
+			\u \U \g \G are valid in the case of unix domain socket
+		\0	the serial number of peer's SSL certificate.
+		\1 - \9	the matched string in the ``regex'' of SSL options.
+		\?1&lt;then&gt;\:&lt;else&gt;\/
+			if \1 (\2 - \9 in a similar way) is not null,
+			&lt;then&gt;, otherwise &lt;else&gt;.
+
+	Type (5) repeats http request with ``&lt;header&gt;'' in the top of
+	request headers.  The above escapes can be also used.  If
+	``/mproxy'' is designated instead of ``/proxy'', ``&lt;header&gt;'' is
+	added to each request headers.
+
+	Type (6) designates the port that other programs can check
+	whether the stone runs `healthy' or not.  Following commands are
+	available to check the stone.
+
+		HELO &lt;any string&gt;	returns the status of the stone
+		STAT			# of threads, mutex conflicts
+		FREE			length of free lists
+		CLOCK			seconds passed
+		CVS_ID			CVS ID
+		CONFIG			content of the configuration file
+		STONE			configuration of each stones
+		LIMIT &lt;var&gt; &lt;n&gt;		check the value of &lt;var&gt; is
+					less than &lt;n&gt;
+	``&lt;var&gt;'' is one of the following:
+
+		PAIR		the number of ``pair''
+		CONN		the number of ``conn''
+		ESTABLISHED	seconds passed since the last conn established
+		READWRITE	seconds passed since the last read/write
+		ASYNC		the number of threads
+
+	The response of the stone is 2xx when normal, or 5xx when
+	abnormal on the top of line.
+
+	If the ``&lt;xhost&gt;'' are used, only machines or its IP addresses
+	listed in ``&lt;xhost&gt;'' separated by space character can
+	connect to the program and to be repeated.
+
+	Extentions can be added to the ``&lt;xhost&gt;'' like
+	``&lt;xhost&gt;/&lt;ex&gt;,&lt;ex&gt;...''.  &lt;ex&gt; is:
+
+	&lt;m&gt;	You can designate the length of prefix bits of the
+		netmask, so that only machines on specified.  In the
+		case of class C network 192.168.1.0, for example, use
+		``192.168.1.0/24''.
+
+	v4	&lt;xhost&gt; is resolved as the IP address.
+
+	v6	&lt;xhost&gt; is resolved as the IPv6 address.
+
+	p&lt;m&gt;	the data repeated by the program are dumped, only if it
+		was connected by the machines specified by &lt;xhost&gt;.  &lt;m&gt;
+		is the dump mode, equivalent to the number of ``-p''
+		options.
+
+	Use ``!'' instead of ``&lt;xhost&gt;'', to deny machines by following
+	``&lt;xhost&gt;''.
+
+	Extentions can be added to the ``&lt;port&gt;'' like
+	``&lt;port&gt;/&lt;ext&gt;,&lt;ext&gt;...''.  &lt;ext&gt; is:
+
+	udp	repeats UDP instead of TCP.
+
+	ssl	forwards with encryption.
+
+	v6	connects to the destination using IPv6.
+
+	base	forwards with MIME base64 encoding.
+
+	Extentions can be added to the ``&lt;sport&gt;'' like
+	``&lt;sport&gt;/&lt;ext&gt;,&lt;ext&gt;...''.  &lt;ext&gt; is:
+
+	udp	repeats UDP instead of TCP.
+
+	apop	converts POP to APOP.  The conversion is derived from
+		the RSA Data Security, Inc. MD5 Message-Digest Algorithm.
+
+	ssl	forwards with decryption.
+
+	v6	accepts connection using IPv6.  If &lt;shost&gt; is omitted 
+		like (1), IP is also acceptable.
+
+	v6only	accepts connection using IPv6 only.  Even if &lt;shost&gt; is
+		omitted like (1), IP is not acceptable.
+
+	base	forwards with MIME base64 decoding.
+
+	http	relays stream over http.
+
+	ident	identifies the owner of the incoming connection
+		on the peer using ident protocol (RFC1413).
+
+
+EXAMPLES
+	outer: a machine in the outside of the firewall
+	inner: a machine in the inside of the firewall
+	fwall: the firewall on which the stone is executed
+
+	stone outer:telnet 10023
+		Repeats the telnet protocol to ``outer''.
+		Run ``telnet fwall 10023'' on ``inner''.
+
+	stone outer:domain/udp domain/udp
+		Repeats the DNS query to ``outer''.
+		Run ``nslookup - fwall'' on ``inner''.
+
+	stone outer:ntp/udp ntp/udp
+		Repeats the NTP to ``outer''.
+		Run ``ntpdate fwall'' on ``inner''.
+
+	stone localhost:http 443/ssl
+		Make WWW server that supports ``https''.
+		Access ``https://fwall/'' using a WWW browser.
+
+	stone localhost:telnet 10023/ssl
+		Make telnet server that supports SSL.
+		Run ``SSLtelnet -z ssl fwall 10023'' on ``inner''.
+
+	stone proxy 8080
+		http proxy.
+
+	stone outer:110/apop 110
+		connect to inner:pop using a mailer that does not
+		support APOP.
+
+	Where fwall is a http proxy (port 8080):
+
+	stone fwall:8080/http 10023 'POST http://outer:8023 HTTP/1.0'
+	stone localhost:telnet 8023/http
+		Run stones on ``inner'' and ``outer'' respectively.
+		Relays stream over http.
+
+	stone fwall:8080/proxy 9080 'Proxy-Authorization: Basic c2VuZ29rdTpoaXJvYWtp'
+		for browser that does not support proxy authorization.
+
+
+HOMEPAGE
+
+	The official homepage of stone is:
+	http://www.gcd.org/sengoku/stone/
+
+
+COPYRIGHT
+
+	All rights about this program ``stone'' are reserved by the
+	original author, Hiroaki Sengoku.  The program is free software;
+	you can redistribute it and/or modify it under the terms of the
+	GNU General Public License (GPL).  Furthermore you can link it
+	with openssl.
+
+
+NO WARRANTY
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY.
+
+
+#2939
+http://www.gcd.org/sengoku/		Hiroaki Sengoku &lt;sengoku@gcd.org&gt;
+</pre>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (C) 2011 KLab Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">stone</string>
+    <string name="DefaultParam">-dd www.gcd.org:80 localhost:1234</string>
+    <string name="WordYes">はい</string>
+    <string name="WordNo">いいえ</string>
+    <string name="WordFont">フォントサイズ</string>
+    <string name="WordCert">証明書のインストール</string>
+    <string name="WordManual">ヘルプ</string>
+    <string name="WordAbout">NOTICE</string>
+    <string name="WordExit">終了</string>
+    <string name="WordSmall">小</string>
+    <string name="WordMedium">中</string>
+    <string name="WordLarge">大</string>
+    <string name="WordBgStone">stone: バックグラウンドプロセス開始</string>
+    <string name="MsgExecError">バックグラウンド stone プロセスの起動に失敗しました。エラーメッセージを確認して下さい。</string>
+    <string name="MsgStopStone">実行中のバックグラウンド stone プロセスを停止しますか？</string>
+    <string name="MsgClearLog">表示中のログをクリアしますか？</string>
+    <string name="MsgFontSize">フォントサイズの設定</string>
+    <string name="MsgExit1">バックグラウンド stone プロセスを起動したまま GUI を閉じます。よろしいですか？</string>
+    <string name="MsgExit2">終了します。よろしいですか？</string>
+    <string name="MsgWait">しばらくお待ち下さい・・・</string>
+    <string name="MsgHistoryUsage">"タップ：使用　  長押し：削除"</string>
+    <string name="MsgQueryHistoryRemove">[%s] をリストから削除しますか？</string>
+    <string name="MsgCredentialStorageNotInitialized">認証情報ストレージが初期化されていません。端末で [設定]-[現在地情報とセキュリティ]-[パスワードの設定] を行って下さい 。</string>
+    <string name="MsgStoneRunning">バックグラウンドプロセス稼動中</string>
+    <string name="FileNameReadme">readme.html</string>
+    <string name="FileNameAbout">about.html</string>
+	<string name="FileNameLogCache">log.txt</string>
+    <string name="TitleMain">stone for Android</string>
+    <string name="TitleHistory">stone for Android - パラメータ履歴</string>
+	<string name="TitleHelp">stone for Android - ヘルプ</string>
+	<string name="TitleNotice">stone for Android - NOTICE</string>
+	<string name="Usage1">"** stone for Android の使いかた **\n\n"</string>
+	<string name="Usage1A">"1.上のフィールドに stone パラメータを記述します.\n  記述方法は [MENU]-[ヘルプ]を参照して下さい.\n"</string>
+	<string name="Usage1B">"2.[Run] - stone プロセスを起動します.\n"</string>
+	<string name="Usage1C">"3.[Stop] - stone プロセスを停止します.\n"</string>
+	<string name="Usage1D">"4.[History] - パラメータ履歴を表示します.\n\n"</string>
+	<string name="Usage1E">"稼動中の stone プロセスは本アプリを終了してもバックグラウンドで動作を続けます. 再度本アプリを起動すれば GUI と stone プロセスが再び連携します.\n\n"</string>
+	<string name="Usage2">"** サンプルパラメータの試しかた **\n\n"</string>
+	<string name="Usage2A">"初期状態で表示されているパラメータは stone の効果を確認するためのサンプルです. [Run]で stone プロセスを起動し、ブラウザから http://localhost:1234/ へアクセスすると http://www.gcd.org/ （stone 公式サイト）に繋がります.　お試し下さい.\n\n"</string>
+
+<!--
+ Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+    <string name="pick_file_title">インストールする証明書を選択して下さい</string>
+    <string name="pkcs12_password_dialog_title">PKCS12キーストアから抽出</string>
+    <string name="extracting_pkcs12">抽出中...</string>
+    <string name="pkcs12_file_password_dialog_title">%sから抽出</string>
+    <string name="name_credential_dialog_title">証明書の名前を指定する</string>
+    <string name="credential_name">証明書名:</string>
+    <string name="credential_password">証明書を抽出するためのパスワードを入力します。</string>
+    <string name="credential_info">パッケージの内容:</string>
+    <string name="p12_description">PKCS12キーストアでの証明書。</string>
+    <string name="one_userkey">ユーザーキー1個</string>
+    <string name="one_usercrt">ユーザー証明書1件</string>
+    <string name="one_cacrt">CA証明書1件</string>
+    <string name="n_cacrts">CA証明書%d件</string>
+    <string name="password_error">正しいパスワードを入力してください。</string>
+    <string name="password_empty_error">パスワードを入力してください。</string>
+    <string name="name_empty_error">名前を入力してください。</string>
+    <string name="name_char_error">文字と数字だけを含んだ名前を入力してください。</string>
+    <string name="storage_error">証明書を保存できません。[OK]をタップしてやり直してください。</string>
+    <string name="unable_to_save_cert">証明書を保存できません。認証情報ストレージが無効か、適切に初期化されていません。</string>
+    <string name="cert_not_saved">証明書はインストールされていません。</string>
+    <string name="no_cert_to_saved">インストールする証明書がありません。</string>
+    <string name="intent_parse_error">解析できないintent: %s</string>
+    <string name="no_cert_file_found">SDカードで証明書ファイルが見つかりません。</string>
+    <string name="sdcard_not_present">SDカードが挿入されていません。</string>
+    <string name="cert_is_added">「%s」がインストールされました。この証明書を指定する例をパラメータエリアに記述しました。</string>
+    <string name="cert_too_large_error">インストールできませんでした。証明書のサイズが大きすぎます。</string>
+    <string name="cert_missing_error">インストールできませんでした。証明書ファイルが見つかりません。</string>
+    <string name="cert_read_error">インストールできませんでした。証明書ファイルが読み取れません。</string>
+
+</resources>
