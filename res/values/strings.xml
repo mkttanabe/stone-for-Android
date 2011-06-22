@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (C) 2011 KLab Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">stone</string>
+    <string name="DefaultParam">-dd www.gcd.org:80 localhost:1234</string>
+    <string name="WordYes">Yes</string>
+    <string name="WordNo">No</string>
+    <string name="WordFont">Font Size</string>
+    <string name="WordCert">Install Certificate</string>
+    <string name="WordManual">Help</string>
+    <string name="WordAbout">NOTICE</string>
+    <string name="WordExit">Exit</string>
+    <string name="WordSmall">Small</string>
+    <string name="WordMedium">Medium</string>
+    <string name="WordLarge">Large</string>
+    <string name="WordBgStone">stone: start background process</string>
+    <string name="MsgExecError">Failed to execute background stone process. Please check error messages.</string>
+    <string name="MsgStopStone">Do you really want to stop background stone process?</string>
+    <string name="MsgClearLog">Clear logs?</string>
+    <string name="MsgFontSize">Font size setting</string>
+    <string name="MsgExit1">Do you want to close GUI with keeping background stone process?</string>
+    <string name="MsgExit2">Exit this application?</string>
+    <string name="MsgWait">Wait a moment, please...</string>
+    <string name="MsgHistoryUsage">"Tap:Use   Press-and-hold：Remove"</string>
+    <string name="MsgQueryHistoryRemove">Remove [%s] from list？</string>
+	<string name="MsgCredentialStorageNotInitialized">Credential storage is not initialized yet. Set password in [Settings]-[Location and Security]-[Credential storage].</string>
+    <string name="MsgStoneRunning">background process is running</string>
+    <string name="FileNameReadme">readme_en.html</string>
+    <string name="FileNameAbout">about_en.html</string>
+	<string name="FileNameLogCache">log.txt</string>
+    <string name="TitleMain">stone for Android</string>
+    <string name="TitleHistory">stone for Android - Parameter History</string>
+	<string name="TitleHelp">stone for Android - HELP</string>
+	<string name="TitleNotice">stone for Android - NOTICE</string>
+	<string name="Usage1">"** How to use stone for Android **\n"</string>
+	<string name="Usage1A">"1.Specify stone parameters on the text field above. See [MENU]-[Help] For syntax details.\n"</string>
+	<string name="Usage1B">"2.[Run] - Execute stone process.\n"</string>
+	<string name="Usage1C">"3.[Stop] - Terminate stone process.\n"</string>
+	<string name="Usage1D">"4.[History] - Display parameter history.\n\n"</string>
+	<string name="Usage1E">"Once stone process is executed, it will continue to work as a background process even if you exit this application. To stop the process, launch this application again.\n\n"</string>
+	<string name="Usage2">"** How to use sample parameter **\n"</string>
+	<string name="Usage2A">"The default parameter above is an example for testing. Please open http://localhost:1234/ in a web browser after you start stone process. The browser will show contents of http://www.gcd.org/ (stone official site).\n\n"</string>
+
+<!--
+ Copyright (C) 2009 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+	<string name="pick_file_title">Pick a certificate</string>
+	<string name="pkcs12_password_dialog_title">Extract from PKCS12 keystore</string>
+	<string name="extracting_pkcs12">Extracting...</string>
+	<string name="pkcs12_file_password_dialog_title">Extract from %s</string>
+	<string name="name_credential_dialog_title">Name the certificate</string>
+	<string name="credential_name">Certificate name:</string>
+	<string name="credential_password">Enter the password to extract the certificates.</string>
+	<string name="credential_info">The package contains:</string>
+	<string name="p12_description">Certificates in PKCS12 keystore.</string>
+	<string name="one_userkey">one user key</string>
+	<string name="one_usercrt">one user certificate</string>
+	<string name="one_cacrt">one CA certificate</string>
+	<string name="n_cacrts">%d CA certificates</string>
+	<string name="password_error">Please enter the correct password.</string>
+	<string name="password_empty_error">Please enter the password.</string>
+	<string name="name_empty_error">Please enter a name.</string>
+	<string name="name_char_error">Please enter a name that contains only letters and numbers.</string>
+	<string name="storage_error">Unable to save the certificate. Click OK to retry.</string>
+	<string name="unable_to_save_cert">Unable to save the certificate. The credential storage is not enabled or properly initialized.</string>
+	<string name="cert_not_saved">The certificate is not installed.</string>
+	<string name="no_cert_to_saved">No certificate to install.</string>
+	<string name="intent_parse_error">Unable to parse intent: %s</string>
+	<string name="no_cert_file_found">No certificate file found in the SD card.</string>
+	<string name="sdcard_not_present">SD card is not present.</string>
+	<string name="cert_is_added">%s is installed. A Sample parameter for this certificate has been created.</string>
+	<string name="cert_too_large_error">Installation failed. Certificate size is too large.</string>
+	<string name="cert_missing_error">Installation failed. Cannot locate the certificate file.</string>
+	<string name="cert_read_error">Installation failed. Cannot read the certificate file.</string>
+</resources>
