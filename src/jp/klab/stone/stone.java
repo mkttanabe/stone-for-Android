@@ -36,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
 //import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +70,7 @@ public class stone extends Activity  implements OnClickListener, Handler.Callbac
 		super.onCreate(savedInstanceState);
 		//Window w = getWindow();
 		//w.requestFeature(Window.FEATURE_LEFT_ICON);
+		getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); // 2013.05
 		setContentView(R.layout.main);
 		//w.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.mini);
 		setTitle(R.string.TitleMain);

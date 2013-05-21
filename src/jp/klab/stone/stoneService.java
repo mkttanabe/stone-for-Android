@@ -194,10 +194,10 @@ public class stoneService extends Service {
 	// Because the parameter might have single or double quoted
 	//  argument which contains white space.
 	// example: -dd server:443/ssl,http 1443 'GET / HTTP/1.1'
-	//	-> [-dd] [server:443/ssl,http] [1443] ['GET / HTTP/1.1']
+	//	-> [-dd] [server:443/ssl,http] [1443] [GET / HTTP/1.1]
 	private String[] CreateStoneParameterArray(String stonePath, String param) {
-		final char SQ ='\''; // single quotation
-		final char DQ ='"';  // double quotation
+		final String SQ ="'"; // single quotation
+		final String DQ ="\"";  // double quotation
 		String p = stonePath + " " + param;
 		p = p.replaceAll("[\\r\\n]", " "); // CR,LF to space
 		String cmdline[] = null;
@@ -218,6 +218,7 @@ public class stoneService extends Service {
 				wk[i] = "";
 				num--;
 				if ((isSQ && sq1 != -1) || (!isSQ && dq1 != -1)) {
+					wk[start] = wk[start].replaceAll(isSQ ? SQ : DQ, ""); // 2013.05
 					inQuote = false;
 				}
 			} else { // outside quotation marks
@@ -237,6 +238,7 @@ public class stoneService extends Service {
 				//   the quotation marks might have been closed.
 				if ((isSQ && wk[i].indexOf(SQ, sq1+1) != -1) ||
 					(!isSQ && wk[i].indexOf(DQ, dq1+1) != -1)) {
+					wk[i] = wk[i].replaceAll(isSQ ? SQ : DQ, ""); // 2013.05
 					continue;
 				}
 				inQuote = true;
