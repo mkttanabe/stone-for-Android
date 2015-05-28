@@ -44,13 +44,17 @@ public class stoneService extends Service {
 	private IStoneService.Stub mServiceIf = new MyStub();
 
 	// for foreground service
+	private static final Class<?>[] mSetForegroundSignature = new Class[] {
+	    boolean.class};
 	private static final Class[] mStartForegroundSignature = new Class[] {
 		int.class, Notification.class};
 	private static final Class[] mStopForegroundSignature = new Class[] {
 		boolean.class};
 	private NotificationManager mNM;
+	private Method mSetForeground;
 	private Method mStartForeground;
 	private Method mStopForeground;
+	private Object[] mSetForegroundArgs = new Object[1];
 	private Object[] mStartForegroundArgs = new Object[2];
 	private Object[] mStopForegroundArgs = new Object[1];
 	private Notification mNotification;
@@ -95,6 +99,13 @@ public class stoneService extends Service {
 			// older platform
 			mStartForeground = mStopForeground = null;
 		}
+	    try {
+	        mSetForeground = getClass().getMethod("setForeground",
+	                mSetForegroundSignature);
+	    } catch (NoSuchMethodException e) {
+	        throw new IllegalStateException(
+	                "OS doesn't have Service.startForeground OR Service.setForeground!");
+	    }
 	}
 
 	@Override
@@ -342,7 +353,15 @@ public class stoneService extends Service {
 			return;
 		}
 		// Fall back on the old API.
-		setForeground(true);
+		//setForeground(true);
+	    mSetForegroundArgs[0] = Boolean.TRUE;
+		try {
+			mSetForeground.invoke(this, mSetForegroundArgs);
+		} catch (InvocationTargetException e) {
+			_Log.w(TAG, "startForegroundCompat: Unable to invoke setForeground", e);
+		} catch (IllegalAccessException e) {
+			_Log.w(TAG, "startForegroundCompat: Unable to invoke setForeground", e);
+		}	    
 		mNM.notify(id, notification);
 	}
 	
@@ -362,6 +381,14 @@ public class stoneService extends Service {
 		// Fall back on the old API.  Note to cancel BEFORE changing the
 		// foreground state, since we could be killed at that point.
 		mNM.cancel(id);
-		setForeground(false);
+		//setForeground(false);
+	    mSetForegroundArgs[0] = Boolean.FALSE;
+		try {
+			mSetForeground.invoke(this, mSetForegroundArgs);
+		} catch (InvocationTargetException e) {
+			_Log.w(TAG, "startForegroundCompat: Unable to invoke setForeground", e);
+		} catch (IllegalAccessException e) {
+			_Log.w(TAG, "startForegroundCompat: Unable to invoke setForeground", e);
+		}	    
 	}
 }

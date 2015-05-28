@@ -41,6 +41,7 @@
     <string name="MsgHistoryUsage">"Tap:Use   Press-and-hold：Remove"</string>
     <string name="MsgQueryHistoryRemove">Remove [%s] from list？</string>
 	<string name="MsgCredentialStorageNotInitialized">Credential storage is not initialized yet. Set password in [Settings]-[Location and Security]-[Credential storage].</string>
+    <string name="MsgCredentialImportNotSupported">Not supported on this platform yet. Please use file-based options.</string>
     <string name="MsgStoneRunning">background process is running</string>
     <string name="FileNameReadme">readme_en.html</string>
     <string name="FileNameAbout">about_en.html</string>

@@ -101,7 +101,13 @@ public class stone extends Activity  implements OnClickListener, Handler.Callbac
 		mButtonHistory.setOnClickListener(this);
 
 		String MyDir = mUtil.GetMyResFileDirectory();
-		mUtil.ExtractMyResFile(R.raw.stone, "stone", MyDir, "744");
+		if(Build.VERSION.SDK_INT >= 21) { // LOLLIPOP = android 5.0
+			// only Position Independent Executables (PIE) are supported
+			mUtil.ExtractMyResFile(R.raw.stone_pie, "stone", MyDir, "744");
+		} else {
+			// for backward compatibility
+			mUtil.ExtractMyResFile(R.raw.stone, "stone", MyDir, "744");
+		}
 		mUtil.ExtractMyResFile(R.raw.about, "about.html", MyDir, "644");
 		mUtil.ExtractMyResFile(R.raw.readme, "readme.html", MyDir, "644");
 		mUtil.ExtractMyResFile(R.raw.about_en, "about_en.html", MyDir, "644");
@@ -443,6 +449,10 @@ public class stone extends Activity  implements OnClickListener, Handler.Callbac
 			return true;
 
 		case 1: // install certificate
+			if(Build.VERSION.SDK_INT >= 14) { // ICS = Android 4.0
+				ShowDlgMessage(getString(R.string.MsgCredentialImportNotSupported));
+				return true;
+			}
 			// get status of Credential Storage
 			KeyStore mKeyStore = KeyStore.getInstance();
 			int state = mKeyStore.test();

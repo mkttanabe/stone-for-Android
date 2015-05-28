@@ -36,11 +36,12 @@
     <string name="MsgClearLog">表示中のログをクリアしますか？</string>
     <string name="MsgFontSize">フォントサイズの設定</string>
     <string name="MsgExit1">バックグラウンド stone プロセスを起動したまま GUI を閉じます。よろしいですか？</string>
-    <string name="MsgExit2">終了します。よろしいですか？</string>
+    <string name="MsgExit2">アプリを終了します。よろしいですか？</string>
     <string name="MsgWait">しばらくお待ち下さい・・・</string>
     <string name="MsgHistoryUsage">"タップ：使用　  長押し：削除"</string>
     <string name="MsgQueryHistoryRemove">[%s] をリストから削除しますか？</string>
     <string name="MsgCredentialStorageNotInitialized">認証情報ストレージが初期化されていません。端末で [設定]-[現在地情報とセキュリティ]-[パスワードの設定] を行って下さい 。</string>
+    <string name="MsgCredentialImportNotSupported">現在のプラットフォームには未対応です。証明書はファイルベースのオプションでご利用下さい。</string>
     <string name="MsgStoneRunning">バックグラウンドプロセス稼動中</string>
     <string name="FileNameReadme">readme.html</string>
     <string name="FileNameAbout">about.html</string>
