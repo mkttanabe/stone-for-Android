@@ -101,7 +101,11 @@ public class stone extends Activity  implements OnClickListener, Handler.Callbac
 		mButtonHistory.setOnClickListener(this);
 
 		String MyDir = mUtil.GetMyResFileDirectory();
-		if(Build.VERSION.SDK_INT >= 21) { // LOLLIPOP = android 5.0
+		if(Build.VERSION.SDK_INT >= 23){ // Marshmallow = android 6.0
+			// only Position Independent Executables (PIE) are supported &&
+			// removed OpenSSL shared libraries..
+			mUtil.ExtractMyResFile(R.raw.stone_pie_static, "stone", MyDir, "744");
+		} else if(Build.VERSION.SDK_INT >= 21) { // LOLLIPOP = android 5.0
 			// only Position Independent Executables (PIE) are supported
 			mUtil.ExtractMyResFile(R.raw.stone_pie, "stone", MyDir, "744");
 		} else {
